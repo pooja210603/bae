@@ -1,0 +1,120 @@
+<!-- Game Page -->
+<!-- Save this in a file named "game.html" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe4e1;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #d63384;
+        }
+
+        .game-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-button {
+            font-size: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            margin: 0.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            background-color: #ff69b4;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .game-button:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Catch the Hearts! 💖</h1>
+        <canvas id="gameCanvas" width="400" height="400" style="border:1px solid #d63384;"></canvas>
+        <p>Click the hearts before they fall!</p>
+        <button class="game-button" onclick="startGame()">Start Game</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let hearts = [];
+        let score = 0;
+        let gameInterval;
+
+        function createHeart() {
+            return {
+                x: Math.random() * 360,
+                y: 0,
+                size: 20,
+                speed: 2 + Math.random() * 3
+            };
+        }
+
+        function drawHeart(heart) {
+            ctx.fillStyle = '#ff69b4';
+            ctx.beginPath();
+            ctx.moveTo(heart.x, heart.y);
+            ctx.arc(heart.x, heart.y, heart.size, 0, Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function startGame() {
+            score = 0;
+            hearts = [];
+            gameInterval = setInterval(() => {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                hearts.push(createHeart());
+                hearts.forEach((heart, index) => {
+                    heart.y += heart.speed;
+                    drawHeart(heart);
+
+                    if (heart.y > 400) hearts.splice(index, 1);
+                });
+
+                ctx.fillStyle = '#d63384';
+                ctx.font = '20px Comic Sans MS';
+                ctx.fillText(`Score: ${score}`, 10, 20);
+            }, 100);
+
+            canvas.addEventListener('click', catchHeart);
+        }
+
+        function catchHeart(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            hearts.forEach((heart, index) => {
+                const dist = Math.sqrt((heart.x - x) ** 2 + (heart.y - y) ** 2);
+                if (dist < heart.size) {
+                    hearts.splice(index, 1);
+                    score += 1;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
