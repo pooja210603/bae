@@ -52,8 +52,9 @@
         }
 
         #no-button:hover {
-            top: calc(10% + 50px * (Math.random() * 10 - 5));
-            left: calc(10% + 50px * (Math.random() * 10 - 5));
+            position: absolute;
+            top: calc(100vh * Math.random());
+            left: calc(100vw * Math.random());
         }
 
         button:hover {
@@ -64,8 +65,8 @@
 <body>
     <div class="container">
         <h1>Am I Cute? 🥰</h1>
-        <button id="no-button">No</button>
         <button id="yes-button" onclick="goToGamePage()">Yes</button>
+        <button id="no-button">No</button>
     </div>
 
     <script>
