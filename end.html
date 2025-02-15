@@ -32,8 +32,11 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        function drawHeart(x, y, size) {
-            ctx.fillStyle = '#ff69b4';
+        let bigHeartDrawn = false;
+
+        // Function to draw a heart shape
+        function drawHeart(x, y, size, color) {
+            ctx.fillStyle = color;
             ctx.beginPath();
             ctx.moveTo(x, y);
             ctx.bezierCurveTo(x - size / 2, y - size, x - size, y + size / 3, x, y + size);
@@ -42,11 +45,12 @@
             ctx.fill();
         }
 
+        // Function to draw fireworks
         function drawFirework(x, y) {
-            for (let i = 0; i < 30; i++) {
-                const angle = (Math.PI * 2 * i) / 30;
-                const dx = Math.cos(angle) * 100;
-                const dy = Math.sin(angle) * 100;
+            for (let i = 0; i < 20; i++) {
+                const angle = (Math.PI * 2 * i) / 20;
+                const dx = Math.cos(angle) * 50;
+                const dy = Math.sin(angle) * 50;
                 ctx.beginPath();
                 ctx.moveTo(x, y);
                 ctx.lineTo(x + dx, y + dy);
@@ -56,28 +60,54 @@
             }
         }
 
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Animation to slowly draw a big red heart
+        let heartProgress = 0;
+        function drawBigHeart() {
+            const x = canvas.width / 2;
+            const y = canvas.height / 2;
+            const size = 150;
 
-            // Draw random hearts
-            for (let i = 0; i < 5; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                const size = Math.random() * 30 + 10;
-                drawHeart(x, y, size);
+            if (heartProgress <= 1) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.globalAlpha = heartProgress; // Fade-in effect
+                drawHeart(x, y, size, '#ff0000');
+                ctx.globalAlpha = 1; // Reset transparency
+                heartProgress += 0.01;
+                requestAnimationFrame(drawBigHeart);
+            } else {
+                bigHeartDrawn = true;
+                startCelebration(); // Trigger fireworks and smaller hearts
             }
-
-            // Draw random fireworks
-            for (let i = 0; i < 3; i++) {
-                const x = Math.random() * canvas.width;
-                const y = Math.random() * canvas.height;
-                drawFirework(x, y);
-            }
-
-            requestAnimationFrame(animate);
         }
 
-        animate();
+        // Celebration animation (hearts and fireworks)
+        function startCelebration() {
+            function animate() {
+                if (!bigHeartDrawn) return; // Ensure big heart is drawn first
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw random smaller hearts
+                for (let i = 0; i < 5; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    const size = Math.random() * 30 + 10;
+                    drawHeart(x, y, size, '#ff69b4');
+                }
+
+                // Draw random fireworks
+                for (let i = 0; i < 2; i++) {
+                    const x = Math.random() * canvas.width;
+                    const y = Math.random() * canvas.height;
+                    drawFirework(x, y);
+                }
+
+                setTimeout(() => requestAnimationFrame(animate), 500); // Slower animation
+            }
+            animate();
+        }
+
+        // Start by drawing the big heart
+        drawBigHeart();
     </script>
 </body>
 </html>
