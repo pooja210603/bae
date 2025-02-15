@@ -51,12 +51,6 @@
             position: absolute;
         }
 
-        #no-button:hover {
-            position: absolute;
-            top: calc(100vh * Math.random());
-            left: calc(100vw * Math.random());
-        }
-
         button:hover {
             transform: scale(1.1);
         }
@@ -66,12 +60,20 @@
     <div class="container">
         <h1>Am I Cute? 🥰</h1>
         <button id="yes-button" onclick="goToGamePage()">Yes</button>
-        <button id="no-button">No</button>
+        <button id="no-button" onmouseover="moveNoButton()">No</button>
     </div>
 
     <script>
         function goToGamePage() {
             window.location.href = "game.html";
+        }
+
+        function moveNoButton() {
+            const noButton = document.getElementById('no-button');
+            const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
         }
     </script>
 </body>
