@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Over</title>
+    <title>You're the Cutest! ❤️</title>
     <style>
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ffe4e1, #ffd1dc);
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: #ffe4e1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -25,18 +24,16 @@
 
         #message {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             text-align: center;
             font-size: 3rem;
-            font-weight: bold;
-            color: #d63384;
+            color: #ff69b4;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
-    <div id="message">You are the cutest! ❤️</div>
+    <div id="message">You're the Cutest! ❤️</div>
     <canvas id="endCanvas"></canvas>
 
     <script>
@@ -47,16 +44,14 @@
 
         const heartX = canvas.width / 2;
         const heartY = canvas.height / 2;
-        const heartSize = 150; // Size of the heart
-        const particles = [];
-        const fireworks = [];
+        const heartSize = 150; // Heart size
         let progress = 0;
+        let fireworks = [];
 
-        // Function to draw the heart outline progressively
-        function drawHeart(progress) {
+        // Function to draw a perfect red bordered heart step by step
+        function drawHeartOutline(progress) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw Heart Outline
             ctx.strokeStyle = '#ff0000';
             ctx.lineWidth = 5;
             ctx.beginPath();
@@ -78,57 +73,25 @@
             ctx.stroke();
 
             if (progress < 100) {
-                setTimeout(() => drawHeart(progress + 2), 50); // Increment progress smoothly
+                setTimeout(() => drawHeartOutline(progress + 2), 50); // Increment progress
             } else {
-                triggerEffects(); // Start glitter and fireworks
+                startFireworks();
             }
         }
 
-        // Particle Glitter Effect
-        function createParticle() {
-            const angle = Math.random() * Math.PI * 2;
-            const radius = heartSize + 20;
-            return {
-                x: heartX + Math.cos(angle) * radius,
-                y: heartY + Math.sin(angle) * radius,
-                alpha: 1,
-                color: `hsl(${Math.random() * 360}, 100%, 70%)`
-            };
-        }
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw glitter particles
-            particles.forEach((particle, index) => {
-                ctx.fillStyle = `rgba(${particle.color}, ${particle.alpha})`;
-                ctx.beginPath();
-                ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2);
-                ctx.fill();
-                particle.alpha -= 0.01;
-                if (particle.alpha <= 0) particles.splice(index, 1);
-            });
-
-            // Keep creating particles
-            if (particles.length < 100) {
-                particles.push(createParticle());
-            }
-
-            requestAnimationFrame(animateParticles);
-        }
-
-        // Firework Animation
+        // Fireworks Effect
         function createFirework() {
-            return {
+            const firework = {
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: 0,
                 maxRadius: 50,
-                color: `hsl(${Math.random() * 360}, 100%, 70%)`
+                color: `hsl(${Math.random() * 360}, 100%, 70%)`,
             };
+            fireworks.push(firework);
         }
 
-        function animateFireworks() {
+        function drawFireworks() {
             fireworks.forEach((firework, index) => {
                 if (firework.radius < firework.maxRadius) {
                     ctx.beginPath();
@@ -136,29 +99,26 @@
                     ctx.strokeStyle = firework.color;
                     ctx.lineWidth = 2;
                     ctx.stroke();
-                    firework.radius += 1; // Slow expansion
+                    firework.radius += 1; // Gradual expansion
                 } else {
-                    fireworks.splice(index, 1);
+                    fireworks.splice(index, 1); // Remove finished firework
                 }
             });
 
-            // Add new fireworks occasionally
-            if (Math.random() < 0.03 && fireworks.length < 10) {
-                fireworks.push(createFirework());
+            if (fireworks.length < 10 && Math.random() < 0.1) {
+                createFirework(); // Add fireworks occasionally
             }
 
-            requestAnimationFrame(animateFireworks);
+            requestAnimationFrame(drawFireworks);
         }
 
-        function triggerEffects() {
-            setInterval(() => particles.push(createParticle()), 50); // Continuous glitter
-            setInterval(() => fireworks.push(createFirework()), 500); // Continuous fireworks
-            animateParticles();
-            animateFireworks();
+        function startFireworks() {
+            setInterval(createFirework, 500); // Start fireworks slowly
+            drawFireworks();
         }
 
-        // Start heart drawing
-        drawHeart(progress);
+        // Start the heart drawing animation
+        drawHeartOutline(progress);
     </script>
 </body>
 </html>
