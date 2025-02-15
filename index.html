@@ -20,6 +20,7 @@
 
         .container {
             text-align: center;
+            position: relative;
         }
 
         h1 {
@@ -40,9 +41,8 @@
         #yes-button {
             background-color: #ff69b4;
             color: white;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
+            position: relative;
+            top: 20px;
         }
 
         #no-button {
@@ -52,7 +52,8 @@
         }
 
         #no-button:hover {
-            transform: translate(calc(50vw - 100px), calc(50vh - 100px));
+            top: calc(10% + 50px * (Math.random() * 10 - 5));
+            left: calc(10% + 50px * (Math.random() * 10 - 5));
         }
 
         button:hover {
