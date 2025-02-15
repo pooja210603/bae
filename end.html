@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Over</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe4e1;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        const canvas = document.createElement('canvas');
+        document.body.appendChild(canvas);
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        function drawHeart(x, y, size) {
+            ctx.fillStyle = '#ff69b4';
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.bezierCurveTo(x - size / 2, y - size, x - size, y + size / 3, x, y + size);
+            ctx.bezierCurveTo(x + size, y + size / 3, x + size / 2, y - size, x, y);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        function drawFirework(x, y) {
+            for (let i = 0; i < 30; i++) {
+                const angle = (Math.PI * 2 * i) / 30;
+                const dx = Math.cos(angle) * 100;
+                const dy = Math.sin(angle) * 100;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.lineTo(x + dx, y + dy);
+                ctx.strokeStyle = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw random hearts
+            for (let i = 0; i < 5; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                const size = Math.random() * 30 + 10;
+                drawHeart(x, y, size);
+            }
+
+            // Draw random fireworks
+            for (let i = 0; i < 3; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                drawFirework(x, y);
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
