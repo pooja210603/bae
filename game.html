@@ -53,7 +53,7 @@
         <h1>Catch the Hearts! 💖</h1>
         <canvas id="gameCanvas" width="400" height="400" style="border:1px solid #d63384;"></canvas>
         <p>Click the hearts before they fall! The game ends when you miss 5 hearts.</p>
-        <button class="game-button" onclick="startGame()">Start Game</button>
+        <button class="game-button" id="start-button" onclick="startGame()">Start Game</button>
     </div>
 
     <script>
@@ -63,6 +63,7 @@
         let score = 0;
         let missedHearts = 0;
         let gameInterval;
+        let gameRunning = false;
 
         function createHeart() {
             return {
@@ -76,16 +77,21 @@
         function drawHeart(heart) {
             ctx.fillStyle = '#ff69b4';
             ctx.beginPath();
-            ctx.moveTo(heart.x, heart.y);
             ctx.arc(heart.x, heart.y, heart.size, 0, Math.PI * 2);
             ctx.closePath();
             ctx.fill();
         }
 
         function startGame() {
+            if (gameRunning) return; // Prevent multiple intervals
+
+            gameRunning = true;
             score = 0;
             missedHearts = 0;
             hearts = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            document.getElementById('start-button').disabled = true;
+
             gameInterval = setInterval(() => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 hearts.push(createHeart());
@@ -106,6 +112,8 @@
 
                 if (missedHearts >= 5) {
                     clearInterval(gameInterval);
+                    gameRunning = false;
+                    document.getElementById('start-button').disabled = false;
                     alert(`Game Over! Your score is ${score}.`);
                 }
             }, 100);
