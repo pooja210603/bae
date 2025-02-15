@@ -114,7 +114,7 @@
                     clearInterval(gameInterval);
                     gameRunning = false;
                     document.getElementById('start-button').disabled = false;
-                    alert(`Game Over! Your score is ${score}.`);
+                    endGame();
                 }
             }, 100);
 
@@ -133,6 +133,10 @@
                     score += 1;
                 }
             });
+        }
+
+        function endGame() {
+            window.location.href = "end.html";
         }
     </script>
 </body>
