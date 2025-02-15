@@ -44,11 +44,11 @@
 
         const heartX = canvas.width / 2;
         const heartY = canvas.height / 2;
-        const heartSize = 150; // Heart size
-        let progress = 0;
+        const heartSize = 200; // Heart size
+        let progress = 0; // For heart drawing
         let fireworks = [];
 
-        // Function to draw a perfect red bordered heart step by step
+        // Function to draw a bordered heart step by step
         function drawHeartOutline(progress) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -85,19 +85,20 @@
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 radius: 0,
-                maxRadius: 50,
+                maxRadius: 60,
                 color: `hsl(${Math.random() * 360}, 100%, 70%)`,
             };
             fireworks.push(firework);
         }
 
         function drawFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear between frames
             fireworks.forEach((firework, index) => {
                 if (firework.radius < firework.maxRadius) {
                     ctx.beginPath();
                     ctx.arc(firework.x, firework.y, firework.radius, 0, Math.PI * 2);
                     ctx.strokeStyle = firework.color;
-                    ctx.lineWidth = 2;
+                    ctx.lineWidth = 3;
                     ctx.stroke();
                     firework.radius += 1; // Gradual expansion
                 } else {
@@ -105,7 +106,7 @@
                 }
             });
 
-            if (fireworks.length < 10 && Math.random() < 0.1) {
+            if (fireworks.length < 5 && Math.random() < 0.1) {
                 createFirework(); // Add fireworks occasionally
             }
 
@@ -113,7 +114,7 @@
         }
 
         function startFireworks() {
-            setInterval(createFirework, 500); // Start fireworks slowly
+            setInterval(createFirework, 1000); // Start fireworks slowly
             drawFireworks();
         }
 
