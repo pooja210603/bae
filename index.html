@@ -28,30 +28,34 @@
             color: #d63384;
         }
 
-        button {
+        a {
             font-size: 1.5rem;
             padding: 0.5rem 1.5rem;
             margin: 1rem;
             border: none;
             border-radius: 50px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
             cursor: pointer;
+            position: absolute;
+            color: white;
             transition: all 0.3s ease;
         }
 
-        #yes-button {
+        #yes-btn {
             background-color: #ff69b4;
-            color: white;
             position: relative;
             top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        #no-button {
+        #no-btn {
             background-color: #ffb6c1;
-            color: white;
-            position: absolute;
         }
 
-        button:hover {
+        a:hover {
             transform: scale(1.1);
         }
     </style>
@@ -59,17 +63,13 @@
 <body>
     <div class="container">
         <h1>Am I Cute? 🥰</h1>
-        <button id="yes-button" onclick="goToGamePage()">Yes</button>
-        <button id="no-button" onmouseover="moveNoButton()">No</button>
+        <a href="game.html" id="yes-btn">Yes</a>
+        <a href="#" id="no-btn" onmouseover="moveNoButton()">No</a>
     </div>
 
     <script>
-        function goToGamePage() {
-            window.location.href = "game.html";
-        }
-
         function moveNoButton() {
-            const noButton = document.getElementById('no-button');
+            const noButton = document.getElementById('no-btn');
             const x = Math.random() * (window.innerWidth - noButton.offsetWidth);
             const y = Math.random() * (window.innerHeight - noButton.offsetHeight);
             noButton.style.left = `${x}px`;
