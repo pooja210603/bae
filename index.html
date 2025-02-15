@@ -3,38 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Bae</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Am I Cute?</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffe4e1;
+            background-image: url('https://www.transparenttextures.com/patterns/roses.png');
+            background-repeat: repeat;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #d63384;
+        }
+
+        button {
+            font-size: 1.5rem;
+            padding: 0.5rem 1.5rem;
+            margin: 1rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #yes-button {
+            background-color: #ff69b4;
+            color: white;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+
+        #no-button {
+            background-color: #ffb6c1;
+            color: white;
+            position: absolute;
+        }
+
+        #no-button:hover {
+            transform: translate(calc(50vw - 100px), calc(50vh - 100px));
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>🌸 Hey Bae! 🌸</h1>
-        <p>Welcome to your special page! Here are some cute games and messages just for you!</p>
-
-        <h2>💖 Yes or No Game 💖</h2>
-        <p>Do you love surprises?</p>
-        <button onclick="showAnswer('yes')">Yes</button>
-        <button onclick="showAnswer('no')">No</button>
-        <p id="answer"></p>
-
-        <h2>🌼 Cute Messages 🌼</h2>
-        <p>Here’s a sweet message for you:</p>
-        <blockquote>
-            "You are the peanut butter to my jelly! 🥜🍇"
-        </blockquote>
-
-        <h2>🌷 More Flowers 🌷</h2>
-        <img src="https://images.unsplash.com/photo-1513104901005-1c1b1e1c1c1c" alt="Flowers" class="flower-image">
-
-        <footer>
-            <p>❤️ Love you lots! ❤️</p>
-        </footer>
+        <h1>Am I Cute? 🥰</h1>
+        <button id="no-button">No</button>
+        <button id="yes-button" onclick="goToGamePage()">Yes</button>
     </div>
 
     <script>
-        function showAnswer(answer) {
-            const answerText = answer === 'yes' ? "Yay! I love surprises too! 🎉" : "That's okay! I have more surprises for you! 😊";
-            document.getElementById('answer').innerText = answerText;
+        function goToGamePage() {
+            window.location.href = "game.html";
         }
     </script>
 </body>
