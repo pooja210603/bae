@@ -52,7 +52,7 @@
     <div class="game-container">
         <h1>Catch the Hearts! 💖</h1>
         <canvas id="gameCanvas" width="400" height="400" style="border:1px solid #d63384;"></canvas>
-        <p>Click the hearts before they fall!</p>
+        <p>Click the hearts before they fall! The game ends when you miss 5 hearts.</p>
         <button class="game-button" onclick="startGame()">Start Game</button>
     </div>
 
@@ -61,6 +61,7 @@
         const ctx = canvas.getContext('2d');
         let hearts = [];
         let score = 0;
+        let missedHearts = 0;
         let gameInterval;
 
         function createHeart() {
@@ -83,6 +84,7 @@
 
         function startGame() {
             score = 0;
+            missedHearts = 0;
             hearts = [];
             gameInterval = setInterval(() => {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -91,12 +93,21 @@
                     heart.y += heart.speed;
                     drawHeart(heart);
 
-                    if (heart.y > 400) hearts.splice(index, 1);
+                    if (heart.y > 400) {
+                        hearts.splice(index, 1);
+                        missedHearts++;
+                    }
                 });
 
                 ctx.fillStyle = '#d63384';
                 ctx.font = '20px Comic Sans MS';
                 ctx.fillText(`Score: ${score}`, 10, 20);
+                ctx.fillText(`Missed: ${missedHearts}`, 10, 50);
+
+                if (missedHearts >= 5) {
+                    clearInterval(gameInterval);
+                    alert(`Game Over! Your score is ${score}.`);
+                }
             }, 100);
 
             canvas.addEventListener('click', catchHeart);
