@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Bae</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 Hey Bae! 🌸</h1>
+        <p>Welcome to your special page! Here are some cute games and messages just for you!</p>
+
+        <h2>💖 Yes or No Game 💖</h2>
+        <p>Do you love surprises?</p>
+        <button onclick="showAnswer('yes')">Yes</button>
+        <button onclick="showAnswer('no')">No</button>
+        <p id="answer"></p>
+
+        <h2>🌼 Cute Messages 🌼</h2>
+        <p>Here’s a sweet message for you:</p>
+        <blockquote>
+            "You are the peanut butter to my jelly! 🥜🍇"
+        </blockquote>
+
+        <h2>🌷 More Flowers 🌷</h2>
+        <img src="https://images.unsplash.com/photo-1513104901005-1c1b1e1c1c1c" alt="Flowers" class="flower-image">
+
+        <footer>
+            <p>❤️ Love you lots! ❤️</p>
+        </footer>
+    </div>
+
+    <script>
+        function showAnswer(answer) {
+            const answerText = answer === 'yes' ? "Yay! I love surprises too! 🎉" : "That's okay! I have more surprises for you! 😊";
+            document.getElementById('answer').innerText = answerText;
+        }
+    </script>
+</body>
+</html>
